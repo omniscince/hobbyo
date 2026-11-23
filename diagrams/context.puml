@@ -1,0 +1,59 @@
+@startuml context
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam ArrowColor #444444
+skinparam rectangle {
+  BackgroundColor #E1F5EE
+  BorderColor #0F6E56
+  FontColor #04342C
+}
+skinparam actor {
+  BackgroundColor #FFFFFF
+  BorderColor #444444
+}
+skinparam node {
+  BackgroundColor #F1EFE8
+  BorderColor #5F5E5A
+}
+skinparam nodesep 25
+skinparam ranksep 140
+left to right direction
+
+actor "Гость" as G
+actor "Пользователь\n(в т.ч. родитель)" as U
+actor "Организация" as O
+actor "Администратор" as A
+
+rectangle "**Hobbyo**\nсистема подбора хобби\nи записи на пробные занятия" as S
+
+node "Платёжная система\n(MBank, Элсом, O!Деньги)" as PAY
+node "2ГИС API" as MAP
+node "Google Calendar" as CAL
+node "SMS-шлюз" as SMS
+node "Почтовый сервер\n(SMTP)" as MAIL
+node "Firebase Cloud\nMessaging" as FCM
+
+G --> S : просмотр каталога,\nрегистрация
+G <-- S : каталог хобби,\nбандлы, мероприятия
+
+U --> S : анкета, личный график,\nзапись, оплата, отзыв
+U <-- S : рекомендации, слоты,\nстатус записи, напоминания
+
+O --> S : профиль, занятия, слоты,\nподтверждение записей
+O <-- S : заявки на запись,\nсообщения, отчёты
+
+A --> S : верификация, бандлы,\nмодерация
+A <-- S : заявки организаций,\nотчёт платформы
+
+S --> PAY : сумма, номер записи,\nзапрос возврата
+S <-- PAY : статус платежа
+
+S --> MAP : адрес организации
+S <-- MAP : координаты, карта
+
+S --> CAL : событие записи
+S --> SMS : код подтверждения
+S --> MAIL : email-уведомления
+S --> FCM : push-уведомления
+@enduml
