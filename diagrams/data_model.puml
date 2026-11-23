@@ -1,0 +1,135 @@
+@startuml data_model
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam dpi 140
+skinparam linetype ortho
+skinparam ArrowColor #444444
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #0F6E56
+  HeaderBackgroundColor #E1F5EE
+}
+hide circle
+hide methods
+left to right direction
+
+class "Аккаунт" as Account {
+  id
+  тип
+  имя
+  телефон
+  email
+  хеш пароля
+  телефон подтверждён
+}
+class "Анкета" as Survey {
+  id
+  аккаунт
+  возрастная группа
+  бюджет
+  часов в неделю
+  формат
+  районы
+  цель
+}
+class "Свободное окно" as Window {
+  id
+  аккаунт
+  день недели
+  время начала
+  время окончания
+}
+class "Категория" as Category {
+  id
+  название
+}
+class "Хобби" as Hobby {
+  id
+  категория
+  название
+  описание
+  фото
+  скрыто
+}
+class "Бандл" as Bundle {
+  id
+  название
+  описание
+  скрыт
+}
+class "Организация" as Org {
+  id
+  аккаунт
+  название
+  описание
+  адрес
+  широта, долгота
+  телефон
+  Instagram
+}
+class "Занятие" as Class_ {
+  id
+  организация
+  хобби
+  название
+  возрастная группа
+  длительность
+  цена
+  макс. участников
+  срок отмены, ч
+}
+class "Слот" as Slot {
+  id
+  занятие
+  начало
+  свободных мест
+  статус
+}
+class "Запись" as Booking {
+  id
+  номер
+  аккаунт
+  слот
+  цена
+  статус
+  создана
+}
+class "Платёж" as Payment {
+  id
+  сумма
+  ID в платёжной системе
+  тип
+  статус
+}
+class "Подписка" as Sub {
+  id
+  аккаунт
+  начало
+  окончание
+  автопродление
+}
+class "Продвижение" as Promo {
+  id
+  занятие
+  начало
+  окончание
+}
+
+Account "1" -- "0..1" Survey
+Account "1" -- "0..*" Window
+Account "1" -- "0..1" Org
+Account "1" -- "0..*" Booking
+Account "1" -- "0..*" Sub
+Survey "0..*" -- "1..*" Category
+Category "1" -- "0..*" Hobby
+Bundle "0..*" -- "3..10" Hobby
+Org "1" -- "0..*" Class_
+Hobby "1" -- "0..*" Class_
+Class_ "1" -- "0..*" Slot
+Class_ "1" -- "0..*" Promo
+Slot "1" -- "0..*" Booking
+Booking "1" -- "0..2" Payment
+Sub "1" -- "0..*" Payment
+Promo "1" -- "1" Payment
+@enduml

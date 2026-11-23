@@ -2,11 +2,16 @@
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
 skinparam shadowing false
+skinparam dpi 130
 skinparam ArrowColor #444444
 skinparam usecase {
   BackgroundColor #E1F5EE
   BorderColor #0F6E56
   FontColor #04342C
+  BackgroundColor<<S>> #EEEDFE
+  BorderColor<<S>> #534AB7
+  BackgroundColor<<C>> #FAEEDA
+  BorderColor<<C>> #854F0B
 }
 skinparam actor {
   BackgroundColor #FFFFFF
@@ -26,21 +31,19 @@ actor "Платёжная\nсистема" as PAY
 rectangle "Hobbyo" {
   usecase "UC-1 Зарегистрироваться" as UC1
   usecase "UC-2 Пройти анкету интересов" as UC2
-  usecase "UC-3 Выбрать бандл хобби" as UC3
-  usecase "UC-4 Задать личный график" as UC4
-  usecase "UC-5 Записаться на пробное занятие" as UC5
-  usecase "UC-6 Оплатить занятие" as UC6
-  usecase "UC-7 Отменить запись" as UC7
-  usecase "UC-8 Пригласить друга" as UC8
-  usecase "UC-9 Создать профиль ребёнка" as UC9
-  usecase "UC-10 Оставить отзыв" as UC10
-  usecase "UC-11 Найти организацию на карте" as UC11
-  usecase "UC-12 Опубликовать расписание" as UC12
-  usecase "UC-13 Обработать заявки на запись" as UC13
-  usecase "UC-14 Отметить посещение" as UC14
-  usecase "UC-15 Сформировать отчёт о записях" as UC15
-  usecase "UC-16 Верифицировать организацию" as UC16
-  usecase "UC-17 Сформировать бандл" as UC17
+  usecase "UC-3 Задать личный график" as UC3
+  usecase "UC-4 Записаться на пробное занятие" as UC4
+  usecase "UC-5 Отменить запись" as UC5
+  usecase "UC-6 Выбрать бандл хобби" as UC6 <<S>>
+  usecase "UC-7 Оплатить занятие онлайн" as UC7 <<S>>
+  usecase "UC-8 Найти организацию на карте" as UC8 <<S>>
+  usecase "UC-9 Оформить подписку Pro" as UC9 <<C>>
+  usecase "UC-10 Создать профиль организации" as UC10
+  usecase "UC-11 Опубликовать расписание" as UC11
+  usecase "UC-12 Отменить слот" as UC12
+  usecase "UC-13 Купить продвижение" as UC13 <<C>>
+  usecase "UC-14 Управлять каталогом хобби" as UC14
+  usecase "UC-15 Сформировать бандл" as UC15 <<S>>
 }
 
 G --> UC1
@@ -48,17 +51,23 @@ U --> UC2
 U --> UC3
 U --> UC4
 U --> UC5
-U --> UC7
+U --> UC6
 U --> UC8
 U --> UC9
-U --> UC10
-U --> UC11
-UC5 ..> UC6 : <<include>>
-UC6 --> PAY
-O --> UC13
+UC4 ..> UC7 : <<extend>>
+O --> UC10
+O --> UC11
 O --> UC12
-O --> UC14
-O --> UC15
-A --> UC16
-A --> UC17
+O --> UC13
+A --> UC14
+A --> UC15
+UC7 --> PAY
+UC9 --> PAY
+UC13 --> PAY
+
+legend right
+  Зелёный — Must
+  Фиолетовый «S» — Should
+  Оранжевый «C» — Could
+endlegend
 @enduml
